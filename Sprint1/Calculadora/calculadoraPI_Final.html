@@ -8,57 +8,47 @@
 <body>
     <h2>Calculadora de Perdas por Erro de Inventário</h2>
 
-    <p>Digite o faturamento anual da sua loja:</p>
+    Digite o faturamento anual da sua loja:
     <input type="number" id="input_faturamento">
+    <br>
     <button onclick="calcular()">Calcular</button>
 
     <div id="div_resultado"></div>
 
     <script>
-
-        /* PRECISA MELHORAR AS QUESTÕES DE FORMATAÇÃO DO TEXTO, ESTA USANDO FUNÇÕES QUE NAO APRENDEMOS
-        RETIRAR INFOS DESNECESSÁRIAS, TUDO QUE SE REFERE AO MENSAL
-        TROCAR A QUESTAO DE "REDUZIR PERDAS" PARA "AUMENTO DE LUCRO" -- "Nosso sistema não é um custo, é um investimento 
-        que aumenta diretamente a sua margem de lucro. O que você economiza com a redução de perdas vai 100% para o seu lucro."
-        */
-
         function calcular() {
             // Pega o valor do input diretamente pelo id
-            var faturamento = Number(input_faturamento.value);
+            var faturamento = (Number(input_faturamento.value)).toFixed(2);
             
-            // Dados baseados na pesquisa ABRAS (1,79% perdas totais, 10,2% por erros)
-            var perdas_inventario_ano = faturamento * 0.0179 * 0.102;
-            var perdas_inventario_mes = perdas_inventario_ano / 12;
+            // Dados baseados na pesquisa ABRAPPE  (9,46% por erros de inventário em cima de 1,57% perdas totais )
+            var perdas_inventario_ano = (faturamento * 0.0157 * 0.0946).toFixed(2);
             
             // Projeção em 5 anos
-            var perdas_5_anos = perdas_inventario_ano * 5;
+            var perdas_5_anos = (perdas_inventario_ano * 5).toFixed(2);
             
-            // Quanto precisa vender a mais para compensar (margem de 6%)
-            var vendas_extras = perdas_inventario_ano / 0.06;
+            // Quanto precisa vender a mais para compensar (margem de 3%)
+            var vendas_extras = (perdas_inventario_ano / 0.03).toFixed(2);
             
-            // REDUÇÃO DE 25% COM NOSSO SISTEMA
-            var reducao = 0.25; // 25% de redução
-            var economia_ano = perdas_inventario_ano * reducao;
-            var economia_mes = economia_ano / 12;
-            var economia_5_anos = economia_ano * 5;
+            // REDUÇÃO DE 30% COM NOSSO SISTEMA
+            var reducao = 0.30; // 30% de redução
+            //var economia_ano = (perdas_inventario_ano * reducao).toFixed(2);
+            var economia_ano = (faturamento * (reducao * 0.0157 * 0.0946)).toFixed(2)
+            var economia_5_anos = (economia_ano * 5).toFixed(2);
             
-            // Formata os números para exibição
-            var formato = {maximumFractionDigits: 2, minimumFractionDigits: 2};
             
             // Monta o resultado
             var texto = "<h3>Resultado:</h3>";
-            texto += "<p>Perdas anuais por erros de inventário: <b>R$ " + perdas_inventario_ano.toLocaleString('pt-BR', formato) + "</b></p>";
-            texto += "<p>Isso dá aproximadamente <b>R$ " + perdas_inventario_mes.toLocaleString('pt-BR', formato) + "/mês</b></p>";
-            texto += "<p>Em 5 anos: <b>R$ " + perdas_5_anos.toLocaleString('pt-BR', formato) + "</b> em perdas evitáveis</p>";
-            texto += "<p>Para compensar essas perdas, você precisaria vender mais <b>R$ " + vendas_extras.toLocaleString('pt-BR', formato) + "/ano</b></p>";
+            texto += "<p>Perdas anuais por erros de inventário: <b>R$ " + perdas_inventario_ano + "</b></p>";
+            texto += "<p>Em 5 anos: <b>R$ " + perdas_5_anos + "</b> em perdas evitáveis</p>";
+            texto += "<p>Para compensar essas perdas, você precisaria vender mais <b>R$ " + vendas_extras + "/ano</b></p>";
             texto += "<p style='color: red;'><b>Para cada R$ 1 perdido, precisa vender R$ 17 extras só para empatar!</b></p>";
             
-            // SEÇÃO DA OPORTUNIDADE COM 25% DE REDUÇÃO
+            // SEÇÃO DA OPORTUNIDADE COM 30% DE REDUÇÃO
             texto += "<h3 style='color: green;'>Oportunidade com Nosso Sistema:</h3>";
-            texto += "<p>Com redução estimada de 25% nos erros de inventário:</p>";
-            texto += "<p>Economia anual: <b style='color: green;'>R$ " + economia_ano.toLocaleString('pt-BR', formato) + "</b></p>";
-            texto += "<p>Economia mensal: <b style='color: green;'>R$ " + economia_mes.toLocaleString('pt-BR', formato) + "/mês</b></p>";
-            texto += "<p>Economia em 5 anos: <b style='color: green;'>R$ " + economia_5_anos.toLocaleString('pt-BR', formato) + "</b></p>";
+            texto += "<p>Com redução estimada de 30% nos erros de inventário:</p>";
+            texto += "<p>Economia anual: <b style='color: green;'>R$ " + economia_ano + "</b></p>";
+            texto += "<p>Economia em 5 anos: <b style='color: green;'>R$ " + economia_5_anos + "</b></p>";
+
             
             div_resultado.innerHTML = texto;
         }
